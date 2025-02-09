@@ -1,9 +1,14 @@
-const express = require('express');
-const { cadastrarUsuario, fazerLogin } = require('../controllers/usuarioController');
-
+import express from 'express';
 const router = express.Router();
 
-router.post('/', cadastrarUsuario);
-router.post('/login', fazerLogin);
+// Exemplo de rota para usuários
+router.get('/', (req, res) => {
+  res.send('Lista de usuários');
+});
 
-module.exports = router;
+router.post('/', (req, res) => {
+  // Adicionar lógica para criar usuário
+  res.send('Usuário criado');
+});
+
+export default router;

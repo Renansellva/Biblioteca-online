@@ -1,9 +1,14 @@
-const express = require('express');
-const { realizarEmprestimo, devolverLivro } = require('../controllers/emprestimoController');
-
+import express from 'express';
 const router = express.Router();
 
-router.post('/', realizarEmprestimo);
-router.put('/:id/devolver', devolverLivro);
+// Defina suas rotas aqui
+router.get('/', (req, res) => {
+  res.send('Lista de empréstimos');
+});
 
-module.exports = router;
+router.post('/', (req, res) => {
+  res.send('Empréstimo criado');
+});
+
+// Exportação padrão (default)
+export default router;
