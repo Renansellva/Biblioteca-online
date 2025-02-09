@@ -23,5 +23,5 @@ app.use('/api/emprestimos', emprestimoRotas);
 app.use('/api/usuarios', usuarioRotas);
 
 
-const PORTA = process.env.PORTA || 5000;
+const PORTA = process.env.PORTA || 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));

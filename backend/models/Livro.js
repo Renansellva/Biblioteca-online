@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const LivroSchema = new mongoose.Schema({
-    titulo: String,
-    autor: String,
-    genero: String,
-    ano: Number,
+    titulo: { type: String, required: true },
+    autor: { type: String, required: true },
+    genero: { type: String, required: true },
+    ano: { type: Number, required: true },
     disponivel: { type: Boolean, default: true }
 });
 

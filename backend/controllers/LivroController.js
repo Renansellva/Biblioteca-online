@@ -1,12 +1,12 @@
-const Livro = require('../models/Livro');
+import Livro from '../models/livro.js';
 
-exports.adicionarLivro = async (req, res) => {
+export const adicionarLivro = async (req, res) => {
     const novoLivro = new Livro(req.body);
     await novoLivro.save();
     res.json(novoLivro);
 };
 
-exports.listarLivros = async (req, res) => {
+export const listarLivros = async (req, res) => {
     const livros = await Livro.find();
     res.json(livros);
 };
