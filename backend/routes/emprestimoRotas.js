@@ -1,14 +1,32 @@
 import express from 'express';
+import Emprestimo from '../models/emprestimo.js';
+
 const router = express.Router();
 
-// Defina suas rotas aqui
-router.get('/', (req, res) => {
-  res.send('Lista de empréstimos');
+// Rota POST para criar um novo empréstimo
+router.post('/', async (req, res) => { // A rota é /api/emprestimos, não há necessidade de repetir 'api/emprestimos' aqui
+    try {
+        const emprestimo = new Emprestimo({
+            usuario: req.body.usuario,
+            livro: req.body.livro,
+            dataDevolucao: req.body.dataDevolucao,
+        });
+
+        await emprestimo.save();
+        res.status(201).json(emprestimo);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
-router.post('/', (req, res) => {
-  res.send('Empréstimo criado');
+// Rota GET para obter todos os empréstimos
+router.get('/', async (req, res) => {
+    try {
+        const emprestimos = await Emprestimo.find().populate('usuario livro'); // Popula os dados do usuário e livro
+        res.json(emprestimos);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
-// Exportação padrão (default)
 export default router;

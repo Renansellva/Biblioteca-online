@@ -1,12 +1,12 @@
-const Emprestimo = require('../models/Emprestimo');
+import Emprestimo from '../models/emprestimo.js';
 
-exports.realizarEmprestimo = async (req, res) => {
+export const realizarEmprestimo = async (req, res) => {
     const novoEmprestimo = new Emprestimo(req.body);
     await novoEmprestimo.save();
     res.json(novoEmprestimo);
 };
 
-exports.devolverLivro = async (req, res) => {
+export const devolverLivro = async (req, res) => {
     const emprestimo = await Emprestimo.findById(req.params.id);
     if (emprestimo) {
         emprestimo.devolvido = true;

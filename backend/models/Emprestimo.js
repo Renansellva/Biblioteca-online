@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
+// Definindo o schema para o Emprestimo
 const EmprestimoSchema = new mongoose.Schema({
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
     livro: { type: mongoose.Schema.Types.ObjectId, ref: 'Livro' },
@@ -8,4 +9,5 @@ const EmprestimoSchema = new mongoose.Schema({
     devolvido: { type: Boolean, default: false }
 });
 
-module.exports = mongoose.model('Emprestimo', EmprestimoSchema);
+// Exportando o modelo Emprestimo
+export default mongoose.model('Emprestimo', EmprestimoSchema);

@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Conectado ao MongoDB"))
   .catch(err => console.error("Erro ao conectar:", err));
 
+// Rotas
 app.use('/api/livros', livroRotas);
 app.use('/api/emprestimos', emprestimoRotas);
 app.use('/api/usuarios', usuarioRotas);
