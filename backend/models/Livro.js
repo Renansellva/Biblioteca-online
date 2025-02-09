@@ -9,9 +9,8 @@ const livroSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // Adicione outros campos conforme necessário
 });
 
 const Livro = mongoose.model('Livro', livroSchema);
 
-export default Livro;  // Exportação padrão
+export default Livro; 
