@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário - Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Biblioteca <span>Online</span></h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="cadastrar-livros.html">Cadastrar Livros</a></li>
+                <li><a href="emprestimo.html">Realizar Empréstimos</a></li>
+                <li><a href="devolucoes.html">Devoluções</a></li>
+                <li><a href="cadastrar-usuario.html">Cadastrar Usuário</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Cadastrar Novo Usuário</h2>
+        <form action="/api/usuarios" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+
+            <label for="tipo">Tipo de Usuário:</label>
+            <select id="tipo" name="tipo">
+                <option value="usuario">Usuário</option>
+                <option value="admin">Administrador</option>
+            </select>
+
+            <button type="submit">Cadastrar Usuário</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
+    </footer>
+</body>
+</html>

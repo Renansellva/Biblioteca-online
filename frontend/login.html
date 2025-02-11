@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Biblioteca <span>Online</span></h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Entrar na Biblioteca</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
+    </footer>
+
+    <script>
+        // Adicionando evento de submit para a requisição via JavaScript
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            const loginData = { email, senha };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Login bem-sucedido!');
+                    // Redirecionar para outra página após login bem-sucedido (opcional)
+                    window.location.href = 'index.html'; // Ou qualquer outra página
+                } else {
+                    alert('Erro ao realizar login: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao realizar login.');
+            }
+        });
+    </script>
+</body>
+</html>
