@@ -1,28 +1,36 @@
 import express from 'express';
-import Livro from '../models/livro.js';
+import Livro from '../models/Livro.js';  // Importa o modelo Livro
 
 const router = express.Router();
 
-// Criar um livro
-router.post('/', async (req, res) => {
-  try {
-    const livro = new Livro(req.body);
-    await livro.save();
-    res.status(201).json(livro);
-  } catch (err) {
-    res.status(400).json({ message: 'Erro ao criar livro', error: err });
-  }
+// Rota para cadastrar livros
+router.post('/livros', async (req, res) => {
+    const { titulo, autor, ano, genero, descricao } = req.body;
+
+    const livro = new Livro({
+        titulo,
+        autor,
+        ano,
+        genero,
+        descricao,
+    });
+
+    try {
+        await livro.save();
+        res.status(201).json({ message: 'Livro cadastrado com sucesso!' });
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao cadastrar livro', error: err.message });
+    }
 });
 
-// Listar todos os livros
-router.get('/', async (req, res) => {
-  try {
-    const livros = await Livro.find();
-    res.status(200).json(livros);
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao listar livros', error: err });
-  }
+// Rota para listar livros
+router.get('/livros', async (req, res) => {
+    try {
+        const livros = await Livro.find();  // Busca todos os livros no banco
+        res.status(200).json(livros);  // Retorna os livros encontrados
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao listar livros', error: err.message });
+    }
 });
 
-// Exportando a rota
 export default router;

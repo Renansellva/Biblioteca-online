@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devoluções - Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Biblioteca <span>Online</span></h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="cadastrar-livros.html">Cadastrar Livros</a></li>
+                <li><a href="emprestimo.html">Realizar Empréstimos</a></li>
+                <li><a href="devolucoes.html">Devoluções</a></li>
+                <li><a href="cadastrar-usuario.html">Cadastrar Usuário</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Devoluções de Livros</h2>
+        <form action="/api/devolucoes" method="POST">
+            <label for="livro">Selecione o Livro Devolvido:</label>
+            <select id="livro" name="livro">
+                <!-- Aqui você pode listar os livros emprestados -->
+                <option value="livro1">Livro 1</option>
+                <option value="livro2">Livro 2</option>
+            </select>
+
+            <button type="submit">Registrar Devolução</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
+    </footer>
+</body>
+</html>
