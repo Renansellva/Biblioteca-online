@@ -1,32 +1,35 @@
 import express from 'express';
-import Livro from '../models/livro.js';
+import Livro from '../models/Livro.js';  // Importa o modelo Livro
 
 const router = express.Router();
 
-// Rota para cadastrar um livro
-router.post('/', async (req, res) => {
+// Rota para cadastrar livros
+router.post('/livros', async (req, res) => {
+    const { titulo, autor, ano, genero, descricao } = req.body;
+
+    const livro = new Livro({
+        titulo,
+        autor,
+        ano,
+        genero,
+        descricao,
+    });
+
     try {
-        const { titulo, autor, ano, genero, descricao } = req.body;
-
-        // Verifica se todos os campos foram fornecidos
-        if (!titulo || !autor || !ano || !genero || !descricao) {
-            return res.status(400).json({ message: 'Todos os campos são obrigatórios!' });
-        }
-
-        // Cria o novo livro
-        const novoLivro = new Livro({ titulo, autor, ano, genero, descricao });
-        await novoLivro.save();
-
-        res.status(201).json({
-            message: 'Livro cadastrado com sucesso!',
-            livro: novoLivro
-        });
+        await livro.save();
+        res.status(201).json({ message: 'Livro cadastrado com sucesso!' });
     } catch (err) {
-        console.error(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).json({ message: 'Erro de validação: ' + err.message });
-        }
-        res.status(500).json({ message: 'Erro interno do servidor. Tente novamente mais tarde.' });
+        res.status(500).json({ message: 'Erro ao cadastrar livro', error: err.message });
+    }
+});
+
+// Rota para listar livros
+router.get('/livros', async (req, res) => {
+    try {
+        const livros = await Livro.find();  // Busca todos os livros no banco
+        res.status(200).json(livros);  // Retorna os livros encontrados
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao listar livros', error: err.message });
     }
 });
 

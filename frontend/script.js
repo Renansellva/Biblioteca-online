@@ -207,4 +207,6 @@ function escrevendoLetra(){
   
       cadastrarEmprestimo(usuarioId, livroId, dataDevolucao);
   });
-  
+
+
+
