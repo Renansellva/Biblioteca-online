@@ -1,284 +1,123 @@
-<!-- <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Biblioteca</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Biblioteca <span>Online</span></h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <h2>Entrar na Biblioteca</h2>
-        <form id="loginForm">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-
-            <button type="submit">Entrar</button>
-        </form>
-    </main>
-
-    <footer>
-        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
-    </footer>
-
-    <script>
-        // Adicionando evento de submit para a requisição via JavaScript
-        const loginForm = document.getElementById('loginForm');
-        loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Impede o envio padrão do formulário
-
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-
-            const loginData = { email, senha };
-
-            try {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(loginData),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert('Login bem-sucedido!');
-                    // Redirecionar para outra página após login bem-sucedido (opcional)
-                    window.location.href = 'index.html'; // Ou qualquer outra página
-                } else {
-                    alert('Erro ao realizar login: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao realizar login.');
-            }
-        });
-    </script>
-</body>
-</html> -->
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Biblioteca</title>
+    <title>Login - Biblioteca Online</title>
     <style>
-        /* Resetando alguns estilos padrão */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
         }
-
         header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 20px 0;
+            background-color: #4CAF50;
+            color: white;
             text-align: center;
+            padding: 1rem;
         }
-
-        header .logo h1 {
-            font-size: 2.5rem;
-        }
-
-        header .logo span {
-            color: #e74c3c;
-        }
-
-        nav ul {
-            list-style: none;
-            margin-top: 10px;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 20px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-
         main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .login-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
             max-width: 400px;
+            margin: 3rem auto;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
             text-align: center;
         }
-
-        .login-container h2 {
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            color: #2c3e50;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 1rem;
-            margin-bottom: 5px;
+        label {
             display: block;
+            margin: 0.5rem 0;
         }
-
-        .input-group input {
+        input {
             width: 100%;
-            padding: 10px;
-            font-size: 1rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-top: 5px;
         }
-
-        .input-group input:focus {
-            border-color: #e74c3c;
-            outline: none;
-        }
-
-        .btn {
+        button {
             width: 100%;
-            padding: 10px;
-            background-color: #e74c3c;
+            padding: 0.75rem;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1.2rem;
             cursor: pointer;
+            font-size: 1rem;
         }
-
-        .btn:hover {
-            background-color: #c0392b;
+        button:hover {
+            background-color: #45a049;
         }
-
-        footer {
+        .erro {
+            color: red;
             text-align: center;
-            padding: 20px;
-            background-color: #2c3e50;
-            color: white;
+            margin-top: 1rem;
+        }
+        .sucesso {
+            color: green;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .link-cadastro {
+            text-align: center;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-            <h1>Biblioteca <span>Online</span></h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="cadastrarusuario.html">cadastrar usuario</a></li>
-            </ul>
-        </nav>
+        <h1>Login - Biblioteca Online</h1>
     </header>
-
+    
     <main>
-        <div class="login-container">
-            <h2>Entrar na Biblioteca</h2>
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="Digite seu email">
-                </div>
-
-                <div class="input-group">
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha" required placeholder="Digite sua senha">
-                </div>
-
-                <button type="submit" class="btn">Entrar</button>
-            </form>
-        </div>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" required>
+            
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="erroLogin" class="erro"></p>
+        <p class="link-cadastro">Ainda não tem uma conta? <a href="cadastrarusuario.html">Cadastre-se aqui</a></p>
     </main>
 
-    <footer>
-        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
-    </footer>
-
     <script>
-        const loginForm = document.getElementById('loginForm');
-        loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário
 
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const senha = document.getElementById('senha').value;
 
-            const loginData = { email, senha };
+            // Recupera os usuários do localStorage
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-            try {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(loginData),
-                });
+            // Verifica se o nome de usuário e senha correspondem a um cadastro
+            const usuarioEncontrado = usuarios.find(user => user.username === username && user.senha === senha);
 
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert('Login bem-sucedido!');
-                    window.location.href = 'index.html';
-                } else {
-                    alert('Erro ao realizar login: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao realizar login.');
+            if (usuarioEncontrado) {
+                // Login bem-sucedido
+                alert("Login realizado com sucesso!");
+                window.location.href = "index.html"; // Redireciona para a página principal (substitua conforme necessário)
+            } else {
+                // Se o login falhar
+                document.getElementById('erroLogin').textContent = "Nome de usuário ou senha incorretos!";
             }
         });
     </script>
 </body>
-</html>
+</html> 
+
+
+
+
+
+
 

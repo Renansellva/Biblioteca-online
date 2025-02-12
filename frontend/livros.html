@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros Cadastrados - Biblioteca Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Livros Cadastrados - Biblioteca Online</h1>
+    </header>
+    
+    <main>
+        <h2>Lista de Livros</h2>
+        <div class="livros-lista" id="listaLivros">
+            <!-- Os livros cadastrados serão carregados aqui -->
+        </div>
+    </main>
+
+    <script>
+        // Função para carregar e exibir os livros cadastrados
+        function carregarLivros() {
+            let livros = JSON.parse(localStorage.getItem('livros')) || [];
+            const listaLivros = document.getElementById('listaLivros');
+            listaLivros.innerHTML = ''; // Limpar a lista antes de adicionar
+
+            if (livros.length === 0) {
+                listaLivros.innerHTML = '<p>Nenhum livro cadastrado ainda.</p>';
+            }
+
+            livros.forEach((livro) => {
+                const livroElement = document.createElement('div');
+                livroElement.classList.add('livro-item');
+                livroElement.innerHTML = `
+                    <h3>${livro.titulo}</h3>
+                    <p><strong>Descrição:</strong> ${livro.descricao}</p>
+                `;
+                listaLivros.appendChild(livroElement);
+            });
+        }
+
+        // Chama a função ao carregar a página
+        window.onload = carregarLivros;
+    </script>
+</body>
+</html>

@@ -1,129 +1,108 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+    <title>Cadastro de Usuário - Biblioteca Online</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #3498db, #2ecc71);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
-
-        .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-            box-sizing: border-box;
-        }
-
-        .form-container h2 {
-            text-align: center;
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            font-size: 14px;
-            margin-bottom: 8px;
-            display: block;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #3498db;
-            border: none;
-            border-radius: 8px;
+        header {
+            background-color: #4CAF50;
             color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        .footer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
+            padding: 1rem;
         }
-
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
+        main {
+            max-width: 400px;
+            margin: 3rem auto;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .input-group small {
-            font-size: 12px;
-            color: #777;
+        h2 {
+            text-align: center;
         }
-
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .erro {
+            color: red;
+            text-align: center;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
-
-    <div class="form-container">
-        <h2>Cadastro de Usuário</h2>
-        <form action="#" method="post">
-            <div class="input-group">
-                <label for="username">Nome de Usuário</label>
-                <input type="text" id="username" name="username" placeholder="Escolha um nome de usuário" required>
-            </div>
-            <div class="input-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Senha</label>
-                <input type="password" id="password" name="password" placeholder="Crie uma senha" required>
-            </div>
-            <div class="input-group">
-                <label for="confirm_password">Confirmar Senha</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
-            </div>
-            <button type="submit" class="btn">Cadastrar</button>
+    <header>
+        <h1>Cadastro de Usuário</h1>
+    </header>
+    
+    <main>
+        <h2>Cadastrar Novo Usuário</h2>
+        <form id="cadastroForm">
+            <label for="novoUsername">Nome de Usuário:</label>
+            <input type="text" id="novoUsername" required>
+            
+            <label for="novaSenha">Senha:</label>
+            <input type="password" id="novaSenha" required>
+            
+            <button type="submit">Cadastrar</button>
         </form>
-        <div class="footer">
-            <p>Já tem uma conta? <a href="#">Faça login</a></p>
-        </div>
-    </div>
+        <p id="erroCadastro" class="erro"></p>
+    </main>
 
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            const username = document.getElementById('novoUsername').value;
+            const senha = document.getElementById('novaSenha').value;
+
+            // Verifica se o nome de usuário já existe no localStorage
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            if (usuarios.some(user => user.username === username)) {
+                document.getElementById('erroCadastro').textContent = "Esse nome de usuário já está em uso!";
+                return;
+            }
+
+            // Cadastra o novo usuário
+            usuarios.push({ username, senha });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+            // Mensagem de sucesso e redirecionamento para a página de login
+            alert("Usuário cadastrado com sucesso!");
+            window.location.href = "login.html"; // Redireciona para a página de login
+        });
+    </script>
 </body>
 </html>

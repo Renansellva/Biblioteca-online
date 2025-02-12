@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -129,4 +129,128 @@
 
 
 
+ -->
 
+
+
+
+
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Livros - Biblioteca Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            max-width: 600px;
+            margin: 3rem auto;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cadastrar Livros - Biblioteca Online</h1>
+    </header>
+    
+    <main>
+        <h2>Cadastrar Novo Livro</h2>
+        <form id="formCadastroLivro">
+            <label for="titulo">Título do Livro:</label>
+            <input type="text" id="titulo" required>
+            
+            <label for="descricao">Descrição do Livro:</label>
+            <textarea id="descricao" rows="4" required></textarea>
+            
+            <button type="submit">Cadastrar Livro</button>
+        </form>
+    </main>
+
+    <script>
+        // Função para carregar os livros armazenados no localStorage e exibi-los
+        function carregarLivros() {
+            let livros = JSON.parse(localStorage.getItem('livros')) || [];
+            const listaLivros = document.getElementById('listaLivros');
+            listaLivros.innerHTML = ''; // Limpar a lista antes de adicionar
+
+            livros.forEach((livro) => {
+                const livroElement = document.createElement('div');
+                livroElement.classList.add('livro-item');
+                livroElement.innerHTML = `<h3>${livro.titulo}</h3><p>${livro.descricao}</p>`;
+                listaLivros.appendChild(livroElement);
+            });
+        }
+
+        // Chama a função para carregar os livros ao carregar a página
+        window.onload = carregarLivros;
+
+        // Evento de envio do formulário para cadastrar um novo livro
+        document.getElementById('formCadastroLivro').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            const titulo = document.getElementById('titulo').value;
+            const descricao = document.getElementById('descricao').value;
+
+            // Recupera os livros do localStorage ou cria uma lista vazia
+            let livros = JSON.parse(localStorage.getItem('livros')) || [];
+
+            // Adiciona o novo livro à lista
+            livros.push({ titulo, descricao });
+
+            // Armazena a lista atualizada no localStorage
+            localStorage.setItem('livros', JSON.stringify(livros));
+
+            // Limpa os campos do formulário
+            document.getElementById('titulo').value = '';
+            document.getElementById('descricao').value = '';
+
+            // Redireciona para a página de Livros Cadastrados após o cadastro
+            window.location.href = "livros.html"; // Altere para o caminho correto da sua página de livros
+        });
+    </script>
+</body>
+</html>
