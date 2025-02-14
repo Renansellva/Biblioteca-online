@@ -1,108 +1,120 @@
 
- <!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato - Biblioteca Online</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Estilo do formulário */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .form-container {
-            max-width: 600px;
-            margin: 3rem auto;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container h2 {
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            margin: 0.5rem 0;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-
-<body>
-
-    <header>
-        <h1>Entre em Contato - Biblioteca Online</h1>
-    </header>
-
-    <div class="form-container">
-        <h2>Envie uma mensagem</h2>
-        <form action="https://formspree.io/f/mnqgeoej" method="POST">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="mensagem">Mensagem:</label>
-            <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-
-            <button type="submit">Enviar Mensagem</button>
-        </form>
-    </div>
-
-</body>
-
-</html> 
-
-
-
-
-
-
- 
-
-
-
-
-
- 
+   <!DOCTYPE html>
+   <html lang="pt-br">
+   <head>
+       <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Formulário de Contato - Biblioteca Online</title>
+       <style>
+           body {
+               font-family: Arial, sans-serif;
+               background-color: #1e1e1e; /* Fundo preto */
+               color: white; /* Texto branco */
+               margin: 0;
+               padding: 0;
+           }
+           header {
+               background-color: #333; /* Cabeçalho escuro */
+               color: white;
+               text-align: center;
+               padding: 1rem;
+           }
+           main {
+               max-width: 600px;
+               margin: 3rem auto;
+               padding: 1.5rem;
+               background-color: #2c2c2c; /* Fundo escuro para o conteúdo */
+               border-radius: 8px;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+           }
+           h2 {
+               text-align: center;
+               font-size: 1.8rem;
+               color: #f0ad4e; /* Cor laranja para o título */
+           }
+           label {
+               display: block;
+               margin: 0.5rem 0;
+               color: #bbb; /* Cor do texto dos labels */
+           }
+           input, textarea {
+               width: 100%;
+               padding: 0.75rem;
+               margin: 0.5rem 0;
+               border: 1px solid #ccc;
+               border-radius: 5px;
+               background-color: #444; /* Fundo mais escuro para os inputs */
+               color: white;
+           }
+           button {
+               width: 100%;
+               padding: 0.75rem;
+               background-color: #d9534f; /* Botão vermelho */
+               color: white;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+               font-size: 1rem;
+           }
+           button:hover {
+               background-color: #c9302c; /* Botão vermelho mais escuro ao passar o mouse */
+           }
+           .mensagem-sucesso {
+               color: #5bc0de;
+               font-weight: bold;
+               text-align: center;
+               margin-top: 1rem;
+           }
+           .erro {
+               color: #d9534f;
+               font-weight: bold;
+               text-align: center;
+               margin-top: 1rem;
+           }
+       </style>
+   </head>
+   <body>
+       <header>
+           <h1>Formulário de Contato - Biblioteca Online</h1>
+       </header>
+       
+       <main>
+           <h2>Entre em Contato</h2>
+           <form action="https://formspree.io/f/mnqgeoej" method="POST" id="formContato" onsubmit="mostrarMensagemSucesso(event)">
+               <!-- Substitua o link abaixo pelo seu link do Formspree -->
+               <label for="nome">Seu Nome:</label>
+               <input type="text" id="nome" name="nome" required>
+   
+               <label for="email">Seu E-mail:</label>
+               <input type="email" id="email" name="email" required>
+   
+               <label for="mensagem">Sua Mensagem:</label>
+               <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+   
+               <button type="submit">Enviar Mensagem</button>
+           </form>
+   
+           <!-- Mensagem de confirmação após envio -->
+           <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none;">Mensagem enviada com sucesso!</div>
+           <div id="erro" class="erro"></div>
+       </main>
+   
+       <script>
+           // Função que exibe a mensagem de sucesso após o envio do formulário
+           function mostrarMensagemSucesso(event) {
+               event.preventDefault(); // Impede o envio padrão do formulário
+   
+               // Exibe a mensagem de sucesso
+               document.getElementById("mensagem-sucesso").style.display = "block";
+   
+               // Esconde o formulário após o envio
+               document.getElementById("formContato").style.display = "none";
+   
+               // Para evitar que a mensagem de erro apareça
+               document.getElementById("erro").style.display = "none";
+           }
+       </script>
+   </body>
+   </html>
+   

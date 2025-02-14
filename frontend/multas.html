@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Livros - Biblioteca Online</title>
+    <title>Consultar Multa - Biblioteca Online</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
             margin: 0.5rem 0;
             color: #bbb; /* Cor do texto dos labels */
         }
-        input, textarea {
+        input {
             width: 100%;
             padding: 0.75rem;
             margin: 0.5rem 0;
@@ -65,57 +65,57 @@
             text-align: center;
             margin-top: 1rem;
         }
+        .erro {
+            color: #d9534f;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Cadastrar Livros - Biblioteca Online</h1>
+        <h1>Consultar Multa - Biblioteca Online</h1>
     </header>
     
     <main>
-        <h2>Cadastrar Novo Livro</h2>
-        <form id="formCadastroLivro">
-            <label for="titulo">Título do Livro:</label>
-            <input type="text" id="titulo" required>
+        <h2>Consultar Multa por Livro</h2>
+        <form id="formConsultaLivro">
+            <label for="nomeLivro">Nome do Livro:</label>
+            <input type="text" id="nomeLivro" required>
             
-            <label for="descricao">Descrição do Livro:</label>
-            <textarea id="descricao" rows="4" required></textarea>
-            
-            <button type="submit">Cadastrar Livro</button>
+            <button type="submit">Consultar Multa</button>
         </form>
 
-        <div id="mensagem" class="mensagem"></div> <!-- Mensagem após o cadastro -->
+        <div id="mensagem" class="mensagem"></div> <!-- Mensagem de sucesso -->
+        <div id="erro" class="erro"></div> <!-- Mensagem de erro, caso o livro não seja encontrado -->
     </main>
 
     <script>
-        // Evento de envio do formulário para cadastrar um novo livro
-        document.getElementById('formCadastroLivro').addEventListener('submit', function(event) {
+        // Função para calcular a multa com base no livro e dias de atraso
+        document.getElementById('formConsultaLivro').addEventListener('submit', function(event) {
             event.preventDefault(); // Evita o envio do formulário
 
-            const titulo = document.getElementById('titulo').value;
-            const descricao = document.getElementById('descricao').value;
-
-            // Recupera os livros do localStorage ou cria uma lista vazia
-            let livros = JSON.parse(localStorage.getItem('livros')) || [];
-
-            // Adiciona o novo livro à lista
-            livros.push({ titulo, descricao, emprestado: false });
-
-            // Armazena a lista atualizada no localStorage
-            localStorage.setItem('livros', JSON.stringify(livros));
-
-            // Limpa os campos do formulário
-            document.getElementById('titulo').value = '';
-            document.getElementById('descricao').value = '';
-
-            // Exibe uma mensagem de sucesso
+            const nomeLivro = document.getElementById('nomeLivro').value.trim();
+            const livros = JSON.parse(localStorage.getItem('livros')) || [];
             const mensagem = document.getElementById('mensagem');
-            mensagem.innerHTML = 'Livro cadastrado com sucesso!';
+            const erro = document.getElementById('erro');
 
-            // Redireciona para a página de "Realizar Empréstimos" após o cadastro
-            setTimeout(function() {
-                window.location.href = "emprestimo.html"; // Altere para o caminho correto da sua página de empréstimos
-            }, 1500); // Aguarda 1.5 segundos antes de redirecionar
+            // Limpa mensagens anteriores
+            mensagem.innerHTML = '';
+            erro.innerHTML = '';
+
+            // Busca pelo livro no localStorage
+            const livro = livros.find(l => l.titulo.toLowerCase() === nomeLivro.toLowerCase());
+
+            if (livro) {
+                // Se o livro for encontrado, calcula a multa
+                const multa = livro.diasAtraso * 1; // Multa é R$1 por dia de atraso
+                mensagem.innerHTML = `O livro "${livro.titulo}" tem uma multa de R$${multa.toFixed(2)} por atraso de ${livro.diasAtraso} dias."`;
+            } else {
+                // Se o livro não for encontrado
+                erro.innerHTML = 'Livro não encontrado. Verifique o nome e tente novamente.';
+            }
         });
     </script>
 </body>

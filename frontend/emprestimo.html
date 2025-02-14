@@ -4,48 +4,166 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realizar Empréstimos - Biblioteca</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Livros Cadastrados - Biblioteca Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e; /* Fundo preto */
+            color: white; /* Texto branco */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333; /* Fundo escuro para o cabeçalho */
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 1.5rem;
+            background-color: #2c2c2c; /* Fundo escuro para o conteúdo */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        .livro-item {
+            background-color: #444; /* Fundo mais claro para os itens de livro */
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .livro-item h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: white; /* Título em branco */
+        }
+        .livro-item p {
+            margin-top: 0.5rem;
+            color: #bbb; /* Texto da descrição em cinza claro */
+        }
+        .emprestado {
+            background-color: #f0ad4e;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .btn-emprestar {
+            background-color: #d9534f; /* Botões vermelhos */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .btn-emprestar:hover {
+            background-color: #c9302c; /* Botão vermelho mais escuro ao passar o mouse */
+        }
+        .mensagem {
+            color: #5bc0de;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .livros-emprestados {
+            margin-top: 2rem;
+        }
+        .livros-emprestados h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #f0ad4e; /* Cor laranja para a seção de livros emprestados */
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Biblioteca <span>Online</span></h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="cadastrar-livros.html">Cadastrar Livros</a></li>
-                <li><a href="emprestimo.html">Realizar Empréstimos</a></li>
-                <li><a href="devolucoes.html">Devoluções</a></li>
-                <li><a href="cadastrar-usuario.html">Cadastrar Usuário</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="contato.html">Contato</a></li>
-            </ul>
-        </nav>
+        <h1>Livros Cadastrados - Biblioteca Online</h1>
     </header>
-
+    
     <main>
-        <h2>Realizar Empréstimo de Livro</h2>
-        <form action="/api/emprestimos" method="POST">
-            <label for="livro">Selecione o Livro:</label>
-            <select id="livro" name="livro">
-                <!-- Aqui você pode listar os livros cadastrados -->
-                <option value="livro1">Livro 1</option>
-                <option value="livro2">Livro 2</option>
-            </select>
-
-            <label for="usuario">Selecione o Usuário:</label>
-            <select id="usuario" name="usuario">
-                <!-- Aqui você pode listar os usuários -->
-                <option value="usuario1">Usuário 1</option>
-                <option value="usuario2">Usuário 2</option>
-            </select>
-
-            <button type="submit">Realizar Empréstimo</button>
-        </form>
+        <h2>Lista de Livros</h2>
+        <div id="listaLivros"></div> <!-- Aqui serão exibidos os livros -->
+        <div id="livrosEmprestados" class="livros-emprestados">
+            <h3>Livros Emprestados</h3>
+            <div id="listaLivrosEmprestados"></div> <!-- Aqui serão exibidos os livros emprestados -->
+        </div>
+        <div id="mensagem" class="mensagem"></div> <!-- Aqui aparecerá a mensagem de status -->
     </main>
 
-    <footer>
-        <p>Todos os direitos reservados &copy; Biblioteca Online - 2025</p>
-    </footer>
+    <script>
+        // Função para carregar os livros armazenados no localStorage e exibi-los
+        function carregarLivros() {
+            let livros = JSON.parse(localStorage.getItem('livros')) || [];
+            const listaLivros = document.getElementById('listaLivros');
+            const listaLivrosEmprestados = document.getElementById('listaLivrosEmprestados');
+            const mensagem = document.getElementById('mensagem');
+            listaLivros.innerHTML = ''; // Limpar a lista antes de adicionar
+            listaLivrosEmprestados.innerHTML = ''; // Limpar a lista de livros emprestados
+
+            // Verifica se existem livros
+            if (livros.length === 0) {
+                listaLivros.innerHTML = '<p>Nenhum livro cadastrado.</p>';
+            } else {
+                // Adiciona cada livro à lista
+                livros.forEach((livro, index) => {
+                    const livroElement = document.createElement('div');
+                    livroElement.classList.add('livro-item');
+
+                    // Se o livro não estiver emprestado, exibe na lista original
+                    if (!livro.emprestado) {
+                        livroElement.innerHTML = `
+                            <h3>${livro.titulo}</h3>
+                            <p>${livro.descricao}</p>
+                            <button class="btn-emprestar" onclick="emprestarLivro(${index})">Pegar Emprestado</button>
+                        `;
+                        listaLivros.appendChild(livroElement);
+                    } else {
+                        // Se o livro estiver emprestado, exibe na lista de livros emprestados
+                        livroElement.innerHTML = `
+                            <h3>${livro.titulo}</h3>
+                            <p>${livro.descricao}</p>
+                            <span class="emprestado">Livro Emprestado</span>
+                            <button class="btn-emprestar" onclick="emprestarLivro(${index})">Devolver Livro</button>
+                        `;
+                        listaLivrosEmprestados.appendChild(livroElement);
+                    }
+                });
+            }
+        }
+
+        // Função para "pegar emprestado" ou "devolver" um livro
+        function emprestarLivro(index) {
+            let livros = JSON.parse(localStorage.getItem('livros')) || [];
+            const mensagem = document.getElementById('mensagem');
+
+            if (livros[index].emprestado) {
+                // Se o livro já está emprestado, devolve o livro
+                livros[index].emprestado = false;
+                mensagem.innerHTML = 'Livro devolvido com sucesso!';
+            } else {
+                // Se o livro não estiver emprestado, empresta o livro
+                livros[index].emprestado = true;
+                mensagem.innerHTML = 'Livro emprestado com sucesso!';
+            }
+
+            // Atualiza o localStorage com a nova lista
+            localStorage.setItem('livros', JSON.stringify(livros));
+
+            // Recarrega os livros para atualizar a interface
+            carregarLivros();
+        }
+
+        // Chama a função para carregar os livros ao carregar a página
+        window.onload = carregarLivros;
+    </script>
 </body>
 </html>
